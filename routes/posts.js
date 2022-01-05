@@ -1,10 +1,38 @@
+const express = require("express");
 const router = require("express").Router();
 const Post = require("../models/post");
 const User = require("../models/user");
+const multer = require("multer");
+const path = require("path");
+const app = express();
 
+app.use("/images", express.static(path.join(__dirname, "public/images")));
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "public/images");
+  },
+  filename: (req, file, cb) => {
+    cb(null, new Date().toISOString().replace(/:/g, "-") + file.originalname);
+    // cb(null, req.body.name);
+    console.log(37, req.body);
+  },
+});
+
+const upload = multer({ storage: storage });
 // create a post
-router.post("/", async (req, res) => {
-  const newPost = new Post(req.body);
+router.post("/createpost", upload.array("file", 12), async (req, res) => {
+  // console.log(7, req.body);
+  // console.log(8, req.files);
+  const newPost = new Post({
+    image: req?.files?.map((res) => {
+      return res?.filename;
+    }),
+    description: req.body.description,
+    userId: req.body.userId,
+    likes: req.body.likes,
+    postName: req.body.postName,
+    profilePicture: req.body.profilePicture,
+  });
   try {
     const savedPost = await newPost.save();
     res.status(200).json({ success: true, data: savedPost });

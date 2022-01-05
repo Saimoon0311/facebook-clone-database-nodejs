@@ -29,26 +29,33 @@ app.use("/api/v1/posts", postRoute);
 app.use("/images", express.static(path.join(__dirname, "public/images")));
 
 const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null,"public/images");
-    },
-    filename: (req, file, cb) => {
-        cb(null, req.body.name);
-    }
+  destination: (req, file, cb) => {
+    cb(null, "public/images");
+  },
+  filename: (req, file, cb) => {
+    cb(null, new Date().toISOString().replace(/:/g, "-") + file.originalname);
+    // cb(null, req.body.name);
+    console.log(37, req.body);
+  },
 });
 
 const upload = multer({ storage: storage });
 
-app.post("/api/v1/upload", upload.single("file"), (req, res) => {
-    try {
-        return res.status(200).json("File uploaded successfully!");
-    } catch(err){
-        console.log(err);
-    }
+app.post("/api/v1/upload", upload.array("file", 8), (req, res) => {
+  console.log(45, req.files);
+  console.log(46, req.body);
+  try {
+    console.log(48, req.files);
+    return res
+      .status(200)
+      .json({ success: true, data: "File uploaded successfully!" });
+  } catch (err) {
+    console.log({ success: false, data: err });
+  }
 });
 
-app.get("/", (req, res) =>{
-    res.json("Welcome to the Social Media (Facebook clone) server!")
+app.get("/", (req, res) => {
+  res.json("Welcome to the Social Media (Facebook clone) server!");
 });
 
 const PORT = process.env.PORT || 5000;
@@ -59,13 +66,13 @@ const uri = process.env.ATLAS_URI;
 //     console.log("MongoDB database connection has been established successfully.")
 // })
 
-mongoose.connect(uri, { useNewUrlParser: true});
+mongoose.connect(uri, { useNewUrlParser: true });
 const connection = mongoose.connection;
 
 connection.once("open", () => {
-    console.log("MongoDB database connection has been established successfully.")
+  console.log("MongoDB database connection has been established successfully.");
 });
 
 app.listen(PORT, () => {
-    console.log(`Server is listening on port ${PORT}`)
-})
+  console.log(`Server is listening on port ${PORT}`);
+});

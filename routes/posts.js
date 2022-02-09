@@ -13,7 +13,6 @@ const storage = multer.diskStorage({
   },
   filename: (req, file, cb) => {
     cb(null, new Date().toISOString().replace(/:/g, "-") + file.originalname);
-    // cb(null, req.body.name);
     console.log(37, req.body);
   },
 });
@@ -21,8 +20,6 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 // create a post
 router.post("/createpost", upload.array("file", 12), async (req, res) => {
-  // console.log(7, req.body);
-  // console.log(8, req.files);
   const newPost = new Post({
     image: req?.files?.map((res) => {
       return res?.filename;

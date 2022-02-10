@@ -43,7 +43,7 @@ router.post("/createpost", async (req, res) => {
     // image: req?.files?.map((res) => {
     //   return res?.filename;
     // }),
-    image: req.body.images,
+    image: req.body.image,
     description: req.body.description,
     userId: req.body.userId,
     likes: req.body.likes,

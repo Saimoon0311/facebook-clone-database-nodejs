@@ -6,24 +6,25 @@ const multer = require("multer");
 const path = require("path");
 const app = express();
 
-app.use("/images", express.static(path.join(__dirname, "public/images")));
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "public/images");
-  },
-  filename: (req, file, cb) => {
-    cb(null, new Date().toISOString().replace(/:/g, "-") + file.originalname);
-    console.log(37, req.body);
-  },
-});
+// app.use("/images", express.static(path.join(__dirname, "public/images")));
+// const storage = multer.diskStorage({
+//   destination: (req, file, cb) => {
+//     cb(null, "public/images");
+//   },
+//   filename: (req, file, cb) => {
+//     cb(null, new Date().toISOString().replace(/:/g, "-") + file.originalname);
+//     console.log(37, req.body);
+//   },
+// });
 
-const upload = multer({ storage: storage });
+// const upload = multer({ storage: storage });
 // create a post
 router.post("/createpost", upload.array("file", 12), async (req, res) => {
   const newPost = new Post({
-    image: req?.files?.map((res) => {
-      return res?.filename;
-    }),
+    // image: req?.files?.map((res) => {
+    //   return res?.filename;
+    // }),
+    image: req.body.images,
     description: req.body.description,
     userId: req.body.userId,
     likes: req.body.likes,

@@ -19,7 +19,26 @@ const app = express();
 
 // const upload = multer({ storage: storage });
 // create a post
-router.post("/createpost", upload.array("file", 12), async (req, res) => {
+// router.post("/createpost", upload.array("file", 12), async (req, res) => {
+//   const newPost = new Post({
+//     // image: req?.files?.map((res) => {
+//     //   return res?.filename;
+//     // }),
+//     image: req.body.images,
+//     description: req.body.description,
+//     userId: req.body.userId,
+//     likes: req.body.likes,
+//     postName: req.body.postName,
+//     profilePicture: req.body.profilePicture,
+//   });
+//   try {
+//     const savedPost = await newPost.save();
+//     res.status(200).json({ success: true, data: savedPost });
+//   } catch (err) {
+//     res.status(500).json({ success: false, data: err });
+//   }
+// });
+router.post("/createpost", async (req, res) => {
   const newPost = new Post({
     // image: req?.files?.map((res) => {
     //   return res?.filename;

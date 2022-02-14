@@ -153,5 +153,35 @@ router.get("/profile/:username", async (req, res) => {
     res.status(500).json({ success: false, data: err });
   }
 });
+// get all posts
+router.get("/post/AllPost", async (req, res) => {
+  try {
+    const posts = await Post.find();
+    console.log(161, posts);
+    res.status(200).json({ success: true, data: posts });
+  } catch (err) {
+    console.log(164, err);
+    res.status(500).json({ success: false, data: err });
+  }
+});
+
+// hide post from user
+
+router.put("/:id/hide", async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id);
+    if (!post.hidePost.includes(req.body.userId)) {
+      await post.updateOne({ $push: { hidePost: req.body.userId } });
+      res.status(200).json({ success: true, data: "The post has been hide!" });
+    } else {
+      await post.updateOne({ $pull: { hidePost: req.body.userId } });
+      res
+        .status(200)
+        .json({ success: true, data: "The post has been unhide!" });
+    }
+  } catch (err) {
+    res.status(500).json({ success: false, data: err });
+  }
+});
 
 module.exports = router;

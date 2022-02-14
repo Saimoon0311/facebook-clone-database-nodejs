@@ -24,6 +24,9 @@ const postSchema = new mongoose.Schema(
     profilePicture: {
       type: String,
     },
+    hidePost: {
+      type: Array,
+    },
   },
   {
     timestamps: true,

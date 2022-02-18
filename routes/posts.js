@@ -59,10 +59,14 @@ router.post("/createpost", async (req, res) => {
 });
 
 // update a post
-router.put("/:id", async (req, res) => {
+router.put("/updatePost/:id", async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
-    if (post.userId === req.body.userId) {
+    console.log(65, post);
+    console.log(66, req);
+    console.log(66, req.body.userId);
+    console.log(66, req.body.description);
+    if (post.userId == req.body.userId) {
       await post.updateOne({ $set: req.body });
       res
         .status(200)

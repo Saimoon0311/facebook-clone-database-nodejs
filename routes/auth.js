@@ -23,8 +23,11 @@ router.post("/register", async (req, res) => {
       profilePicture: req.body.profilePicture,
       coverPicture: req.body.coverPicture,
       followers: req.body.followers,
+      phoneNumber: req.body.phoneNumber,
+      country: req.body.country,
       following: req.body.following,
       isAdmin: req.body.isAdmin,
+      city: req?.body?.city,
     });
 
     // save user and return response

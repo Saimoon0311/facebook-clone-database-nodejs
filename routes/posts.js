@@ -63,7 +63,7 @@ router.put("/updatePost/:id", async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
     console.log(65, post);
-    console.log(66, req);
+    // console.log(66, req);
     console.log(66, req.body.userId);
     console.log(66, req.body.description);
     if (post.userId == req.body.userId) {

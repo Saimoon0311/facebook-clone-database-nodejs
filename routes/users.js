@@ -20,7 +20,7 @@ router.put("/:id", async (req, res) => {
       const user = await User.findByIdAndUpdate(req.params.id, {
         $set: req.body,
       });
-      res.status(200).json({ success: true, data: "Acount has been updated!" });
+      res.status(200).json({ success: true, data: user });
     } catch (err) {
       res.status(500).json({ success: false, data: err });
     }

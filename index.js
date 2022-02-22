@@ -36,17 +36,17 @@ const storage = multer.diskStorage({
   filename: (req, file, cb) => {
     cb(null, new Date().toISOString().replace(/:/g, "-") + file.originalname);
     // cb(null, req.body.name);
-    console.log(37, req.body);
+    // console.log(37, req.body);
   },
 });
 
 const upload = multer({ storage: storage });
 
 app.post("/api/v1/upload", upload.array("file", 8), (req, res) => {
-  console.log(45, req.files);
-  console.log(46, req.body);
+  // console.log(45, req.files);
+  // console.log(46, req.body);
   try {
-    console.log(48, req.files);
+    // console.log(48, req.files);
     return res
       .status(200)
       .json({ success: true, data: "File uploaded successfully!" });

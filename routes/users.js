@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
+const Post = require("../models/post");
 
 // update user
 router.put("/:id", async (req, res) => {
@@ -17,9 +18,20 @@ router.put("/:id", async (req, res) => {
       // update(), updateMany(), findOneAndUpdate(), etc.
       // do not execute save() middleware. If you need save middleware and full validation,
       // first query for the document and then save() it.
-      const user = await User.findByIdAndUpdate(req.params.id, {
-        $set: req.body,
-      });
+      const user = await User.findByIdAndUpdate(
+        req.params.id,
+        {
+          $set: req.body,
+        },
+        { new: true }
+      );
+      const allUserPost = await Post.updateMany(
+        { userId: req.params.id },
+        {
+          postName: user.username,
+          profilePicture: user.profilePicture,
+        }
+      );
       res.status(200).json({ success: true, data: user });
     } catch (err) {
       res.status(500).json({ success: false, data: err });
@@ -48,24 +60,24 @@ router.delete("/:id", async (req, res) => {
 });
 
 // get a user
-router.get("/", async (req, res) => {
+router.get("/:id", async (req, res) => {
   try {
-    const userId = req.query.userId;
-    const username = req.query.username;
-    const user = userId
-      ? await User.findById(userId)
-      : await User.findOne({ username: username });
+    // const userId = req.query.userId;
+    // const username = req.query.username;
+    // const user = userId
+    const user = await User.findById(req.params.id);
+    // : await User.findOne({ username: username });
     // if we just say user not user._doc it returns a big object containg properties
     // so we have to again write others._doc to find the wanted properties
-    const { password, updatedAt, ...others } = user._doc;
-    res.status(200).json({ success: true, data: others });
+    // const { password, updatedAt, ...others } = user._doc;
+    res.status(200).json({ success: true, data: user });
   } catch (err) {
     res.status(500).json({ success: false, data: err });
   }
 });
 
 // follow a user
-router.put("/:id/follow", async (req, res) => {
+router.put("/:id/followUser", async (req, res) => {
   // if not same users
   if (req.body.userId !== req.params.id) {
     try {
@@ -93,7 +105,7 @@ router.put("/:id/follow", async (req, res) => {
 });
 
 // unfollow a user
-router.put("/:id/unfollow", async (req, res) => {
+router.put("/:id/unfollowUser", async (req, res) => {
   // if not same users
   if (req.body.userId !== req.params.id) {
     try {

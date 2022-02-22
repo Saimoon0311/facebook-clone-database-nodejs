@@ -62,10 +62,10 @@ router.post("/createpost", async (req, res) => {
 router.put("/updatePost/:id", async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
-    console.log(65, post);
+    // console.log(65, post);
     // console.log(66, req);
-    console.log(66, req.body.userId);
-    console.log(66, req.body.description);
+    // console.log(66, req.body.userId);
+    // console.log(66, req.body.description);
     if (post.userId == req.body.userId) {
       await post.updateOne({ $set: req.body });
       res
@@ -161,10 +161,10 @@ router.get("/profile/:username", async (req, res) => {
 router.get("/post/AllPost", async (req, res) => {
   try {
     const posts = await Post.find();
-    console.log(161, posts);
+    // console.log(161, posts);
     res.status(200).json({ success: true, data: posts });
   } catch (err) {
-    console.log(164, err);
+    // console.log(164, err);
     res.status(500).json({ success: false, data: err });
   }
 });

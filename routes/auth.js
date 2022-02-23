@@ -28,6 +28,7 @@ router.post("/register", async (req, res) => {
       following: req.body.following,
       isAdmin: req.body.isAdmin,
       city: req?.body?.city,
+      description: req?.body?.description,
     });
 
     // save user and return response

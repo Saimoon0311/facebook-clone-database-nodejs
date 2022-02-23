@@ -53,6 +53,9 @@ const userSchema = new mongoose.Schema(
     country: {
       type: String,
     },
+    description: {
+      type: String,
+    },
     city: {
       type: String,
       maxlength: 50,

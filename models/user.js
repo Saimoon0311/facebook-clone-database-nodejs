@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 // Numbers have min and max validators.
 // Strings have enum, match, minLength, and maxLength validators.
@@ -25,11 +25,11 @@ const userSchema = new mongoose.Schema(
     },
     profilePicture: {
       type: String,
-      default: "",
+      default: '',
     },
     coverPicture: {
       type: String,
-      default: "",
+      default: '',
     },
     followers: {
       type: Array,
@@ -68,10 +68,14 @@ const userSchema = new mongoose.Schema(
       type: Number,
       enum: [1, 2, 3],
     },
+    deviceId: {
+      type: String,
+      required: true,
+    },
   },
   {
     timestamps: true,
   }
 );
 
-module.exports = mongoose.model("User", userSchema);
+module.exports = mongoose.model('User', userSchema);

@@ -1,10 +1,10 @@
-const router = require("express").Router();
-const bcrypt = require("bcrypt");
+const router = require('express').Router();
+const bcrypt = require('bcrypt');
 // import User model
-const User = require("../models/user");
+const User = require('../models/user');
 
 // REGISTER
-router.post("/register", async (req, res) => {
+router.post('/register', async (req, res) => {
   try {
     // generates a random text salt for use with hashpw
     // 1st few chars in this hold bcrypt version number and value for log_rounds
@@ -29,6 +29,7 @@ router.post("/register", async (req, res) => {
       isAdmin: req.body.isAdmin,
       city: req?.body?.city,
       description: req?.body?.description,
+      deviceId: req.body.deviceToken,
     });
 
     // save user and return response
@@ -40,23 +41,23 @@ router.post("/register", async (req, res) => {
 });
 
 // LOGIN
-router.post("/login", async (req, res) => {
+router.post('/login', async (req, res) => {
   try {
     const user = await User.findOne({ email: req.body.email });
     if (!user) {
-      return res.status(404).json({ success: false, data: "user not found!" });
+      return res.status(404).json({ success: false, data: 'user not found!' });
     }
-    // !user && res.status(404).json("user not found!");
 
     const validPassword = await bcrypt.compare(
       req.body.password,
       user.password
     );
     if (!validPassword) {
-      return res.status(400).json({ success: false, data: "wrong password!" });
+      return res.status(400).json({ success: false, data: 'wrong password!' });
     }
+    await user.updateOne({ deviceId: req.body.deviceToken });
+    // user.deviceId = req.body.deviceToken;
     // !validPassword && res.status(400).json("wrong password!")
-
     res.status(200).json({ success: true, data: user });
   } catch (err) {
     res.status(500).json({ success: false, data: err });

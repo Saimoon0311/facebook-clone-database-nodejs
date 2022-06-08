@@ -129,7 +129,7 @@ router.put('/:id/like', async (req, res) => {
         // priority: 'high',
         // sound: 'default',
         // vibrateTimingsMillis: [200, 500, 800],
-        imageUrl: `https://res.cloudinary.com/dd6tdswt5/image/upload/v1644503344/${post.image}`,
+        // imageUrl: `https://res.cloudinary.com/dd6tdswt5/image/upload/v1644503344/${post.image}`,
         // subTitle: post.postName,
       },
       data: {
@@ -140,7 +140,7 @@ router.put('/:id/like', async (req, res) => {
       },
       android: {
         notification: {
-          imageUrl: `https://res.cloudinary.com/dd6tdswt5/image/upload/v1644503344/${post.image}`,
+          image: `https://res.cloudinary.com/dd6tdswt5/image/upload/v1644503344/${post.image}`,
           color: '#fff566',
           priority: 'high',
           sound: 'default',

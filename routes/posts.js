@@ -119,6 +119,8 @@ router.put('/:id/like', async (req, res) => {
     const sendMsgUser = await User.findById({ _id: post.userId });
     const user = await User.findById({ _id: req.body.userId });
     // let token = req.params.token;
+    const topicName = 'industry-tech';
+
     const message = {
       token: sendMsgUser.deviceId,
       notification: {
@@ -129,7 +131,9 @@ router.put('/:id/like', async (req, res) => {
         // priority: 'high',
         // sound: 'default',
         // vibrateTimingsMillis: [200, 500, 800],
-        imageUrl: `https://res.cloudinary.com/dd6tdswt5/image/upload/v1644503344/${post.image}`,
+        imageUrl:
+          'https://www.pexels.com/photo/brunette-posing-in-suit-12296893/',
+        // imageUrl: `https://res.cloudinary.com/dd6tdswt5/image/upload/v1644503344/${post.image}`,
         // subTitle: post.postName,
       },
       data: {
@@ -140,8 +144,10 @@ router.put('/:id/like', async (req, res) => {
       },
       android: {
         notification: {
-          imageUrl: `https://res.cloudinary.com/dd6tdswt5/image/upload/v1644503344/${post.image}`,
-          color: '#fff566',
+          // imageUrl: `https://res.cloudinary.com/dd6tdswt5/image/upload/v1644503344/${post.image}`,
+          imageUrl:
+            'https://www.pexels.com/photo/brunette-posing-in-suit-12296893/',
+          color: '#00b2f7',
           priority: 'high',
           sound: 'default',
           vibrateTimingsMillis: [200, 500, 800],
@@ -155,7 +161,7 @@ router.put('/:id/like', async (req, res) => {
           },
         },
         fcm_options: {
-          image: `https://res.cloudinary.com/dd6tdswt5/image/upload/v1644503344/${post.image}`,
+          image: `https://www.pexels.com/photo/brunette-posing-in-suit-12296893/`,
         },
       },
     };
